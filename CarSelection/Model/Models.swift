@@ -18,7 +18,7 @@ class Car: Object {
     @Persisted var condition: Condition
     @Persisted var maxPassengers: Int
     @Persisted var maxSpeed: Int
-    @Persisted var gearBoxType: Gearbox
+    @Persisted var gearboxType: Gearbox
     @Persisted var yearOfManufacture: Int
 }
 

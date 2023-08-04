@@ -9,9 +9,13 @@ import UIKit
 
 class MainController: UIViewController {
 
+    override func loadView() {
+        super.viewDidLoad()
+        view = CarsListView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
 
