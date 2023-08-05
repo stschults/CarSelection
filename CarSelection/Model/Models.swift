@@ -20,7 +20,24 @@ class Car: Object {
     @Persisted var maxSpeed: Int
     @Persisted var gearboxType: Gearbox
     @Persisted var yearOfManufacture: Int
+    
+    init(brand: String, model: String, price: Int, state: State, mileage: Int, condition: Condition, maxPassengers: Int, maxSpeed: Int, gearboxType: Gearbox, yearOfManufacture: Int) {
+        self.brand = brand
+        self.model = model
+        self.price = price
+        self.state = state
+        self.mileage = mileage
+        self.condition = condition
+        self.maxPassengers = maxPassengers
+        self.maxSpeed = maxSpeed
+        self.gearboxType = gearboxType
+        self.yearOfManufacture = yearOfManufacture
+    }
+    
+    override init() {}
 }
+
+
 
 enum State: String, PersistableEnum {
     case new

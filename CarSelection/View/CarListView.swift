@@ -9,6 +9,8 @@ import UIKit
 
 class CarsListView: UIView {
     
+    public var carsCollectionContent = [Car]()
+    
     private let canvas: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -24,28 +26,25 @@ class CarsListView: UIView {
         return label
     }()
     
-    public let filterButton: UIButton = {
+    var filterButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "filter"), for: .normal)
-        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    public let sortButton: UIButton = {
+    var sortButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "sort"), for: .normal)
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    public let addButton: UIButton = {
+    var addButton: UIButton = {
         let button = UIButton()
         button.setTitle("Добавить", for: .normal)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -60,7 +59,7 @@ class CarsListView: UIView {
         return view
     }()
     
-    let carsCollection: 
+    let carsCollection = CarCollectionView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,10 +77,12 @@ class CarsListView: UIView {
         settingsStackView.addArrangedSubview(filterButton)
         settingsStackView.addArrangedSubview(sortButton)
         canvas.addSubview(settingsStackView)
-        
+        carsCollection.setCarsLabelTextArray(textOfCarsArray: Constants.testCarsArray)
+        canvas.addSubview(carsCollection)
         canvas.addSubview(addButton)
         setConstraints()
     }
+
     
     private func setConstraints() {
         NSLayoutConstraint.activate(
@@ -104,8 +105,13 @@ class CarsListView: UIView {
                 
                 settingsStackView.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
                 settingsStackView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
-                settingsStackView.leadingAnchor.constraint(equalTo: canvas.leadingAnchor, constant: Constants.leadingOffset),
-                settingsStackView.trailingAnchor.constraint(equalTo: canvas.trailingAnchor, constant: Constants.trailingOffset),
+                settingsStackView.leadingAnchor.constraint(equalTo: canvas.leadingAnchor, constant: Constants.positiveOffset),
+                settingsStackView.trailingAnchor.constraint(equalTo: canvas.trailingAnchor, constant: Constants.negativeOffset),
+                
+                carsCollection.topAnchor.constraint(equalTo: settingsStackView.bottomAnchor, constant: Constants.positiveOffset),
+                carsCollection.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: Constants.negativeOffset),
+                carsCollection.leadingAnchor.constraint(equalTo: canvas.leadingAnchor, constant: Constants.positiveOffset),
+                carsCollection.trailingAnchor.constraint(equalTo: canvas.trailingAnchor, constant: Constants.negativeOffset),
                 
                 addButton.heightAnchor.constraint(equalToConstant: Constants.addButtonHeight),
                 addButton.widthAnchor.constraint(equalToConstant: Constants.addButtonWidth),
@@ -115,17 +121,4 @@ class CarsListView: UIView {
             ]
         )
     }
-    
-    @objc func filterButtonTapped() {
-        print("Filter button tapped")
-    }
-    
-    @objc func sortButtonTapped() {
-        print("Sort button tapped")
-    }
-    
-    @objc func addButtonTapped() {
-        print("Add button tapped")
-    }
-    
 }
