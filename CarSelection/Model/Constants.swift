@@ -22,7 +22,7 @@ enum Constants {
     static let negativeOffset: CGFloat = -16.0
     static let cellMinimumLineSpacing: CGFloat = 12.0
     static let headerStackViewHeight: CGFloat = 30.0
-    
+    static let stackSpacer: CGFloat = 15.0
     
     static var testCar1 = Car(brand: "BMW",
                               model: "5-series",
