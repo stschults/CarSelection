@@ -6,10 +6,22 @@
 //
 
 import Foundation
-import Realm
 import RealmSwift
 
-class Car: Object {
+struct Car {
+    var brand: String
+    var model: String
+    var price: Int
+    var state: State
+    var mileage: Int
+    var condition: Condition
+    var maxPassengers: Int
+    var maxSpeed: Int
+    var gearboxType: Gearbox
+    var yearOfManufacture: Int
+}
+
+class CarObject: Object {
     @Persisted var brand: String
     @Persisted var model: String
     @Persisted var price: Int
@@ -21,7 +33,17 @@ class Car: Object {
     @Persisted var gearboxType: Gearbox
     @Persisted var yearOfManufacture: Int
     
-    init(brand: String, model: String, price: Int, state: State, mileage: Int, condition: Condition, maxPassengers: Int, maxSpeed: Int, gearboxType: Gearbox, yearOfManufacture: Int) {
+    convenience init(brand: String,
+                     model: String,
+                     price: Int,
+                     state: State,
+                     mileage: Int,
+                     condition: Condition,
+                     maxPassengers: Int,
+                     maxSpeed: Int,
+                     gearboxType: Gearbox,
+                     yearOfManufacture: Int) {
+        self.init()
         self.brand = brand
         self.model = model
         self.price = price
@@ -33,11 +55,38 @@ class Car: Object {
         self.gearboxType = gearboxType
         self.yearOfManufacture = yearOfManufacture
     }
-    
-    override init() {}
 }
 
+extension CarObject {
+    convenience init(_ dataTO: Car) {
+        self.init()
+        brand = dataTO.brand
+        model = dataTO.model
+        price = dataTO.price
+        state = dataTO.state
+        mileage = dataTO.mileage
+        condition = dataTO.condition
+        maxSpeed = dataTO.maxSpeed
+        maxPassengers = dataTO.maxPassengers
+        gearboxType = dataTO.gearboxType
+        yearOfManufacture = dataTO.yearOfManufacture
+    }
+}
 
+extension Car {
+    init(object: CarObject) {
+        brand = object.brand
+        model = object.model
+        price = object.price
+        state = object.state
+        mileage = object.mileage
+        condition = object.condition
+        maxSpeed = object.maxSpeed
+        maxPassengers = object.maxPassengers
+        gearboxType = object.gearboxType
+        yearOfManufacture = object.yearOfManufacture
+    }
+}
 
 enum State: String, PersistableEnum {
     case new

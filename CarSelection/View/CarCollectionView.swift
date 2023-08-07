@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol CollectionViewTapDelegate {
+    func cellTapped(item: Car)
+}
+
 class CarCollectionView: UICollectionView {
+    
+    var delegateVC: CollectionViewTapDelegate?
     
     private let carColectionLayout = UICollectionViewFlowLayout()
     private var carsNames = [Car]()
@@ -38,12 +44,13 @@ class CarCollectionView: UICollectionView {
         carsNames = textOfCarsArray
     }
     
-    func editCollection() {
-        print("Edit state changed to true collection")
+    func openEditController(item: Car) {
+        delegateVC?.cellTapped(item: item)
     }
 }
 
-extension  CarCollectionView: UICollectionViewDataSource {
+extension CarCollectionView: UICollectionViewDataSource {
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         carsNames.count
@@ -103,6 +110,13 @@ extension CarCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // откроется на отдельном вьюконтроллере
         print("Cell was tapped")
+        
+        
+        
+        let item = carsNames[indexPath.item]
+        print(item)
+        openEditController(item: item)
+        
     }
 }
 

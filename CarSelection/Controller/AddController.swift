@@ -10,7 +10,6 @@ import UIKit
 class AddController: UIViewController {
     
     override func loadView() {
-        super.viewDidLoad()
         let addView = AddView()
         addView.addButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         view = addView
@@ -21,8 +20,12 @@ class AddController: UIViewController {
     }
     
     @objc func saveButtonTapped() {
-        print("Save button tapped")
         
+        
+        print("Save in add button tapped")
+    
         self.dismiss(animated: true)
     }
+    
+    
 }

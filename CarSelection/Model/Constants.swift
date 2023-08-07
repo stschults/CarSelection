@@ -10,8 +10,10 @@ import Foundation
 enum Constants {
     static let titleLabel: String = "Список Автомобилей"
     static let addCarTitleLabel: String = "Добавить автомобиль"
+    static let editCarTitleLabel: String = "Редактировать автомобиль"
     static let addButtonLabel: String = "Добавить"
     static let textFontSize: CGFloat = 14.0
+    static let buttonFontSize: CGFloat = 12.0
     static let titleLabelFontSize: CGFloat = 16.0
     static let headerLabelHeight: CGFloat = 56.0
     static let buttonDiametr: CGFloat = 24.0
@@ -23,6 +25,17 @@ enum Constants {
     static let cellMinimumLineSpacing: CGFloat = 12.0
     static let headerStackViewHeight: CGFloat = 30.0
     static let stackSpacer: CGFloat = 15.0
+    
+    static var emptyCar = Car(brand: "",
+                              model: "",
+                              price: 0,
+                              state: .new,
+                              mileage: 0,
+                              condition: .perfect,
+                              maxPassengers: 0,
+                              maxSpeed: 0,
+                              gearboxType: .mechanic,
+                              yearOfManufacture: 0)
     
     static var testCar1 = Car(brand: "BMW",
                               model: "5-series",

@@ -7,14 +7,16 @@
 
 import UIKit
 
-class MainController: UIViewController {
 
+
+class MainController: UIViewController, CollectionViewTapDelegate {
+    
     override func loadView() {
-        super.viewDidLoad()
         let carListView = CarsListView()
         carListView.addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         carListView.filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         carListView.sortButton.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+        carListView.carsCollection.delegateVC = self
         view = carListView
     }
     
@@ -32,8 +34,14 @@ class MainController: UIViewController {
     
     @objc func addButtonTapped() {
         print("Add button tapped")
-        
         let vc = AddController()
+        present(vc, animated: true)
+    }
+    
+    
+    func cellTapped(item: Car) {
+        let vc = EditController()
+        vc.saveCar(car: item)
         present(vc, animated: true)
     }
     

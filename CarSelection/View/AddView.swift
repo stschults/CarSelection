@@ -84,6 +84,7 @@ class AddView: UIView {
     let newCarButton: UIButton = {
         let button = UIButton()
         button.setTitle("Новый", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -93,6 +94,7 @@ class AddView: UIView {
     let usedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Б/У", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +104,7 @@ class AddView: UIView {
     let automaticButton: UIButton = {
         let button = UIButton()
         button.setTitle("АКПП", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -111,6 +114,7 @@ class AddView: UIView {
     let mecanicButton: UIButton = {
         let button = UIButton()
         button.setTitle("МКПП", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -120,6 +124,7 @@ class AddView: UIView {
     let roboticButton: UIButton = {
         let button = UIButton()
         button.setTitle("РКПП", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -128,6 +133,7 @@ class AddView: UIView {
     let variaticButton: UIButton = {
         let button = UIButton()
         button.setTitle("ВКПП", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +143,7 @@ class AddView: UIView {
     let perfectButton: UIButton = {
         let button = UIButton()
         button.setTitle("Отличное", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -146,6 +153,7 @@ class AddView: UIView {
     let normalButton: UIButton = {
         let button = UIButton()
         button.setTitle("Нормальное", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -154,6 +162,7 @@ class AddView: UIView {
     let damagedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Битый", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -249,6 +258,32 @@ class AddView: UIView {
         canvas.addSubview(addButton)
         setupConstraints()
     }
+    
+    func setCar(item: Car) {
+        headerLabel.text = Constants.editCarTitleLabel
+        brandTextField.placeholder = item.brand
+        modelTextField.placeholder = item.model
+        priceTextField.placeholder = String(item.price)
+        yearTextField.placeholder = String(item.yearOfManufacture)
+        mileageTextField.placeholder = String(item.mileage)
+        maxPassangersTextField.placeholder = String(item.maxPassengers)
+        maxSpeedTextField.placeholder = String(item.maxSpeed)
+    }
+    
+//    func getCar() -> Car {
+//
+//        let car: Car = Car(brand: brandTextField.text ?? "Неизвестно",
+//                           model: modelTextField.text ?? "Неизвестно",
+//                           price: Int(String(priceTextField.text ?? "0")) ?? 0,
+//                           state: state,
+//                           mileage: Int(String(mileageTextField.text ?? "0")) ?? 0,
+//                           condition: condition,
+//                           maxPassengers: Int(String(maxPassangersTextField.text ?? "0")) ?? 0,
+//                           maxSpeed: Int(String(maxSpeedTextField.text ?? "0")) ?? 0,
+//                           gearboxType: gearbox,
+//                           yearOfManufacture: Int(String(yearTextField.text ?? "0")) ?? 0)
+//        return car
+//    }
     
     private func setupConstraints() {
         

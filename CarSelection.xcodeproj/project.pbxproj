@@ -23,6 +23,7 @@
 		296D4A092A7D26FF00EEDC7A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296D4A082A7D26FF00EEDC7A /* Constants.swift */; };
 		296D4A0B2A7D531F00EEDC7A /* CarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296D4A0A2A7D531F00EEDC7A /* CarCollectionViewCell.swift */; };
 		296D4A0D2A7D532D00EEDC7A /* CarCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296D4A0C2A7D532D00EEDC7A /* CarCollectionView.swift */; };
+		297835C32A81356900F35C0C /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297835C22A81356900F35C0C /* StorageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		296D4A082A7D26FF00EEDC7A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		296D4A0A2A7D531F00EEDC7A /* CarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarCollectionViewCell.swift; sourceTree = "<group>"; };
 		296D4A0C2A7D532D00EEDC7A /* CarCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarCollectionView.swift; sourceTree = "<group>"; };
+		297835C22A81356900F35C0C /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				296D49F42A7CF39700EEDC7A /* Models.swift */,
 				296D4A082A7D26FF00EEDC7A /* Constants.swift */,
+				297835C22A81356900F35C0C /* StorageService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				296D49F92A7CF3BE00EEDC7A /* AddView.swift in Sources */,
 				296D4A012A7CF40200EEDC7A /* EditController.swift in Sources */,
 				296D4A092A7D26FF00EEDC7A /* Constants.swift in Sources */,
+				297835C32A81356900F35C0C /* StorageService.swift in Sources */,
 				296D49FB2A7CF3CC00EEDC7A /* EditVIew.swift in Sources */,
 				296D4A0B2A7D531F00EEDC7A /* CarCollectionViewCell.swift in Sources */,
 				296D49DF2A7CF18200EEDC7A /* SceneDelegate.swift in Sources */,
