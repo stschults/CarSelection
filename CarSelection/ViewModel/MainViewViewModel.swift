@@ -12,18 +12,20 @@ class MainViewViewModel {
     func filterArray(cars: [Car]) -> [Car] {
         let inputCars = cars
         var filteredCars = [Car]()
-        
-        //фильтр марке
-        
+        //print(inputCars)
+        filteredCars = inputCars.filter {
+            $0.state == .new
+        }
         return filteredCars
     }
     
     func sortArray(cars: [Car]) -> [Car] {
         let inputCars = cars
         var sortedCars = [Car]()
-        
-        //сортировка по цене
-        
+        //print(inputCars)
+        sortedCars = inputCars.sorted {
+            $0.price < $1.price
+        }
         return sortedCars
     }
     

@@ -108,11 +108,6 @@ extension CarCollectionView: UICollectionViewDataSource {
 
 extension CarCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // откроется на отдельном вьюконтроллере
-        print("Cell was tapped")
-        
-        
-        
         let item = carsNames[indexPath.item]
         print(item)
         openEditController(item: item)
@@ -124,7 +119,6 @@ extension CarCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         _ = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CarCollectionViewCell
         let fullHeight = CGFloat(250)
-            
         return CGSize(width: bounds.width,
                       height: fullHeight)
     }

@@ -13,7 +13,6 @@ protocol MainViewControllerDelegate: AnyObject {
 
 class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerDelegate {
 
-    let dbService = StorageService()
     let mainViewModel = MainViewViewModel()
     public var carsCollectionContent = [Car]()
     
@@ -81,9 +80,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         updateUI()
     }
     
@@ -144,7 +140,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     }
 
     @objc func addButtonTapped() {
-        print("Add button tapped")
         let vc = AddView()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -152,8 +147,8 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     @objc func filterButtonTapped() {
         print("Filter button tapped")
         let cars = carsCollectionContent
-        let filteredCars = mainViewModel.filterArray(cars: cars)
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: filteredCars)
+        var filteredCars = mainViewModel.filterArray(cars: cars)
+        print(filteredCars)
     }
     
     @objc func updateButtonTapped() {
@@ -164,8 +159,8 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     @objc func sortButtonTapped() {
         print("Sort button tapped")
         let cars = carsCollectionContent
-        let sortedCars = mainViewModel.sortArray(cars: cars)
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: sortedCars)
+        var sortedCars = mainViewModel.sortArray(cars: cars)
+        print(sortedCars)
     }
     
     func cellTapped(item: Car) {
