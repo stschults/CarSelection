@@ -2,19 +2,13 @@
 //  MainView.swift
 //  CarSelection
 //
-//  Created by Станислав Шульц on 08.08.2023.
+//  Created by Станислав Шульц on 04.08.2023.
 //
 
 import UIKit
 
-protocol MainViewControllerDelegate: AnyObject {
-    func updateUI()
-}
-
-class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerDelegate {
-
-    let dbService = StorageService()
-    let mainViewModel = MainViewViewModel()
+class CarsListView: UIView {
+    
     public var carsCollectionContent = [Car]()
     
     private let canvas: UIView = {
@@ -35,15 +29,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     var filterButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "filter"), for: .normal)
-        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    var updateButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "update"), for: .normal)
-        button.addTarget(self, action: #selector(updateButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -51,7 +36,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     var sortButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "sort"), for: .normal)
-        button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -61,7 +45,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
         button.setTitle("Добавить", for: .normal)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -78,38 +61,36 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
     
     let carsCollection = CarCollectionView()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        updateUI()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupUI() {
-        view.backgroundColor = .lightGray
-        view.addSubview(canvas)
+        backgroundColor = .lightGray
+        addSubview(canvas)
         canvas.addSubview(headerLabel)
         settingsStackView.addArrangedSubview(filterButton)
-        settingsStackView.addArrangedSubview(updateButton)
         settingsStackView.addArrangedSubview(sortButton)
         canvas.addSubview(settingsStackView)
-        carsCollectionContent = mainViewModel.fetchFromDB()
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: carsCollectionContent)
+        carsCollection.setCarsLabelTextArray(textOfCarsArray: Constants.testCarsArray)
         canvas.addSubview(carsCollection)
         canvas.addSubview(addButton)
-        carsCollection.delegateVC = self
         setConstraints()
     }
 
+    
     private func setConstraints() {
         NSLayoutConstraint.activate(
             [
-                canvas.topAnchor.constraint(equalTo: view.topAnchor),
-                canvas.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                canvas.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                canvas.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                canvas.topAnchor.constraint(equalTo: topAnchor),
+                canvas.bottomAnchor.constraint(equalTo: bottomAnchor),
+                canvas.leadingAnchor.constraint(equalTo: leadingAnchor),
+                canvas.trailingAnchor.constraint(equalTo: trailingAnchor),
                 
                 headerLabel.topAnchor.constraint(equalTo: canvas.safeAreaLayoutGuide.topAnchor),
                 headerLabel.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
@@ -118,9 +99,6 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
                 filterButton.heightAnchor.constraint(equalToConstant: Constants.buttonDiametr),
                 filterButton.widthAnchor.constraint(equalToConstant: Constants.buttonDiametr),
                 filterButton.leadingAnchor.constraint(equalTo: settingsStackView.leadingAnchor),
-                updateButton.heightAnchor.constraint(equalToConstant: Constants.buttonDiametr),
-                updateButton.widthAnchor.constraint(equalToConstant: Constants.buttonDiametr),
-                updateButton.centerXAnchor.constraint(equalTo: settingsStackView.centerXAnchor),
                 sortButton.heightAnchor.constraint(equalToConstant: Constants.buttonDiametr),
                 sortButton.widthAnchor.constraint(equalToConstant: Constants.buttonDiametr),
                 sortButton.trailingAnchor.constraint(equalTo: settingsStackView.trailingAnchor),
@@ -138,47 +116,9 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
                 addButton.heightAnchor.constraint(equalToConstant: Constants.addButtonHeight),
                 addButton.widthAnchor.constraint(equalToConstant: Constants.addButtonWidth),
                 addButton.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
-                addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+                addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+                
             ]
         )
     }
-
-    @objc func addButtonTapped() {
-        print("Add button tapped")
-        let vc = AddView()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @objc func filterButtonTapped() {
-        print("Filter button tapped")
-        let cars = carsCollectionContent
-        let filteredCars = mainViewModel.filterArray(cars: cars)
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: filteredCars)
-    }
-    
-    @objc func updateButtonTapped() {
-        print("Update button tapped")
-        updateUI()
-    }
-    
-    @objc func sortButtonTapped() {
-        print("Sort button tapped")
-        let cars = carsCollectionContent
-        let sortedCars = mainViewModel.sortArray(cars: cars)
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: sortedCars)
-    }
-    
-    func cellTapped(item: Car) {
-        let vc = EditView()
-        vc.saveCar(car: item)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func updateUI() {
-        carsCollectionContent = mainViewModel.fetchFromDB()
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: carsCollectionContent)
-        carsCollection.reloadData()
-        view.updateConstraints()
-    }
-    
 }
