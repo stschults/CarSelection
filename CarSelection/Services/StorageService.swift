@@ -16,29 +16,36 @@ final class StorageService {
         self.storage = try? Realm(configuration: configuration)
     }
     
-    func saveOrUpdateObject(object: Object) throws {
+    func saveObject(object: Object) throws {
         guard let storage else { return }
         storage.writeAsync {
-            storage.add(object, update: .all)
+            storage.add(object)
+        }
+    }
+    
+    func updateObject(object: Object) throws {
+        guard let storage else { return }
+        storage.writeAsync {
+            storage.add(object, update: .modified)
         }
     }
     
     func saveOrUpdateAllObjects(objects: [Object]) throws {
-        try objects.forEach {
-            try saveOrUpdateObject(object: $0)
+        try? objects.forEach {
+            try saveObject(object: $0)
         }
     }
     
     func delete(object: Object) throws {
         guard let storage else { return }
-        try storage.write {
+        try? storage.write {
             storage.delete(object)
         }
     }
     
     func deleteAll() throws {
         guard let storage else { return }
-        try storage.write {
+        try? storage.write {
             storage.deleteAll()
         }
     }

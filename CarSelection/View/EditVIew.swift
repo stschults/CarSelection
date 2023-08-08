@@ -8,7 +8,10 @@
 import UIKit
 
 
-class EditView: UIView {
+class EditView: AddView {
+    
+    let editViewModel = AddViewViewModel()
+    var car = Constants.emptyCar
     
     private let canvas: UIView = {
         let view = UIView()
@@ -33,29 +36,47 @@ class EditView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        super.setCar(item: car)
+        super.deleteButton.isHidden = false
+        super.addButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        super.deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
     
     private func setupUI() {
-        addSubview(canvas)
+        view.addSubview(canvas)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate(
             [
-                canvas.topAnchor.constraint(equalTo: topAnchor),
-                canvas.bottomAnchor.constraint(equalTo: bottomAnchor),
-                canvas.leadingAnchor.constraint(equalTo: leadingAnchor),
-                canvas.trailingAnchor.constraint(equalTo: trailingAnchor)
+                canvas.topAnchor.constraint(equalTo: view.topAnchor),
+                canvas.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                canvas.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                canvas.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
     }
     
+    func saveCar(car: Car) {
+        self.car = car
+    }
+    
+    @objc override func saveButtonTapped() {
+        print("Save in edit button tapped")
+        let car = car
+        try! editViewModel.updateCarInCollection(car: car)
+        self.dismiss(animated: true)
+    }
+    
+    @objc override func deleteButtonTapped() {
+        print("Delete from edit button tapped")
+        let car = car
+        editViewModel.deleteAllCollection()
+        self.navigationController?.popViewController(animated: true)
+        
+    }
 }

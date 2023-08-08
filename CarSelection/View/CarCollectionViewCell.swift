@@ -18,14 +18,6 @@ class CarCollectionViewCell: UICollectionViewCell {
         return label
     } ()
     
-    let deleteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "delete"), for: .normal)
-        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private let headerStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -130,7 +122,6 @@ class CarCollectionViewCell: UICollectionViewCell {
         backgroundColor = .white
         layer.cornerRadius = 15
         headerStackView.addArrangedSubview(brandLabel)
-        headerStackView.addArrangedSubview(deleteButton)
         addSubview(headerStackView)
         bodyStackView.addArrangedSubview(modelLabel)
         bodyStackView.addArrangedSubview(priceLabel)
@@ -150,9 +141,6 @@ class CarCollectionViewCell: UICollectionViewCell {
             [
                 brandLabel.heightAnchor.constraint(equalToConstant: Constants.buttonDiametr),
                 brandLabel.leadingAnchor.constraint(equalTo: headerStackView.leadingAnchor),
-                deleteButton.heightAnchor.constraint(equalToConstant: Constants.buttonDiametr),
-                deleteButton.widthAnchor.constraint(equalToConstant: Constants.buttonDiametr),
-                deleteButton.trailingAnchor.constraint(equalTo: headerStackView.trailingAnchor),
                 
                 headerStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                 headerStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.positiveOffset),
@@ -166,10 +154,5 @@ class CarCollectionViewCell: UICollectionViewCell {
             ]
         )
     }
-    
-    @objc func deleteButtonTapped() {
-        print("Delete button tapped")
-    }
-    
 }
 

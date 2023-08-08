@@ -7,7 +7,15 @@
 
 import UIKit
 
-class AddView: UIView {
+class AddView: UIViewController {
+    
+    weak var delegate: MainViewControllerDelegate?
+    
+    let addViewModel = AddViewViewModel()
+    var gearbox: Gearbox = .mechanic
+    var state: State = .new
+    var condition: Condition = .perfect
+    
     
     private let canvas: UIView = {
         let view = UIView()
@@ -87,6 +95,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setStateToNew), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -97,6 +106,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setStateToUsed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -107,6 +117,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setGearAutomatic), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -117,6 +128,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setGearMecanic), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -127,6 +139,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setGearRobotic), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -136,6 +149,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setGearVariatic), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -146,6 +160,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setConditionToPerfect), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -156,6 +171,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setConditionToNormal), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -165,6 +181,7 @@ class AddView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: Constants.buttonFontSize)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(setConditionToDamaged), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -204,11 +221,20 @@ class AddView: UIView {
         button.setTitle("Сохранить", for: .normal)
         button.layer.cornerRadius = Constants.addButtonCornerRadius
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    
+    let deleteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Удалить", for: .normal)
+        button.layer.cornerRadius = Constants.addButtonCornerRadius
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     private let bodyStackView: UIStackView = {
         let view = UIStackView()
@@ -220,17 +246,13 @@ class AddView: UIView {
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupUI()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private func setupUI() {
-        addSubview(canvas)
+        view.addSubview(canvas)
         canvas.addSubview(headerLabel)
         bodyStackView.addArrangedSubview(brandTextField)
         bodyStackView.addArrangedSubview(modelTextField)
@@ -239,7 +261,6 @@ class AddView: UIView {
         bodyStackView.addArrangedSubview(mileageTextField)
         bodyStackView.addArrangedSubview(maxPassangersTextField)
         bodyStackView.addArrangedSubview(maxSpeedTextField)
-        
         stateStackView.addArrangedSubview(newCarButton)
         stateStackView.addArrangedSubview(usedButton)
         gearboxStackView.addArrangedSubview(automaticButton)
@@ -249,13 +270,13 @@ class AddView: UIView {
         conditionStackView.addArrangedSubview(perfectButton)
         conditionStackView.addArrangedSubview(normalButton)
         conditionStackView.addArrangedSubview(damagedButton)
-        
         bodyStackView.addArrangedSubview(stateStackView)
         bodyStackView.addArrangedSubview(gearboxStackView)
         bodyStackView.addArrangedSubview(conditionStackView)
-        
         canvas.addSubview(bodyStackView)
         canvas.addSubview(addButton)
+        canvas.addSubview(deleteButton)
+        deleteButton.isHidden = true
         setupConstraints()
     }
     
@@ -270,29 +291,14 @@ class AddView: UIView {
         maxSpeedTextField.placeholder = String(item.maxSpeed)
     }
     
-//    func getCar() -> Car {
-//
-//        let car: Car = Car(brand: brandTextField.text ?? "Неизвестно",
-//                           model: modelTextField.text ?? "Неизвестно",
-//                           price: Int(String(priceTextField.text ?? "0")) ?? 0,
-//                           state: state,
-//                           mileage: Int(String(mileageTextField.text ?? "0")) ?? 0,
-//                           condition: condition,
-//                           maxPassengers: Int(String(maxPassangersTextField.text ?? "0")) ?? 0,
-//                           maxSpeed: Int(String(maxSpeedTextField.text ?? "0")) ?? 0,
-//                           gearboxType: gearbox,
-//                           yearOfManufacture: Int(String(yearTextField.text ?? "0")) ?? 0)
-//        return car
-//    }
-    
     private func setupConstraints() {
         
         NSLayoutConstraint.activate(
             [
-                canvas.topAnchor.constraint(equalTo: topAnchor),
-                canvas.bottomAnchor.constraint(equalTo: bottomAnchor),
-                canvas.leadingAnchor.constraint(equalTo: leadingAnchor),
-                canvas.trailingAnchor.constraint(equalTo: trailingAnchor),
+                canvas.topAnchor.constraint(equalTo: view.topAnchor),
+                canvas.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                canvas.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                canvas.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
                 headerLabel.topAnchor.constraint(equalTo: canvas.safeAreaLayoutGuide.topAnchor),
                 headerLabel.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
@@ -306,8 +312,69 @@ class AddView: UIView {
                 addButton.heightAnchor.constraint(equalToConstant: Constants.addButtonHeight),
                 addButton.widthAnchor.constraint(equalToConstant: Constants.addButtonWidth),
                 addButton.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
-                addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+                addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                
+                deleteButton.heightAnchor.constraint(equalToConstant: Constants.addButtonHeight),
+                deleteButton.widthAnchor.constraint(equalToConstant: Constants.addButtonWidth),
+                deleteButton.centerXAnchor.constraint(equalTo: canvas.centerXAnchor),
+                deleteButton.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: Constants.negativeOffset)
             ]
         )
     }
+    
+    @objc func setGearMecanic() {
+        gearbox = .mechanic
+    }
+    
+    @objc func setGearAutomatic() {
+        gearbox = .automatic
+    }
+    
+    @objc func setGearRobotic() {
+        gearbox = .robotic
+    }
+    
+    @objc func setGearVariatic() {
+        gearbox = .variatic
+    }
+    
+    @objc func setStateToNew() {
+        state = .new
+    }
+    
+    @objc func setStateToUsed() {
+        state = .used
+    }
+    
+    @objc func setConditionToPerfect() {
+        condition = .perfect
+    }
+    
+    @objc func setConditionToNormal() {
+        condition = .normal
+    }
+    
+    @objc func setConditionToDamaged() {
+        condition = .damaged
+    }
+    
+    @objc func saveButtonTapped() {
+        print("Save in add button tapped")
+        var car = Car(brand: brandTextField.text ?? "Неизвестно",
+                                                 model: modelTextField.text ?? "Неизвестно",
+                                                 price: Int(String(priceTextField.text ?? "0")) ?? 0,
+                                                 state: state,
+                                                 mileage: Int(String(mileageTextField.text ?? "0")) ?? 0,
+                                                 condition: condition,
+                                                 maxPassengers: Int(String(maxPassangersTextField.text ?? "0")) ?? 0,
+                                                 maxSpeed: Int(String(maxSpeedTextField.text ?? "0")) ?? 0,
+                                                 gearboxType: gearbox,
+                                                 yearOfManufacture: Int(String(yearTextField.text ?? "0")) ?? 0)
+        addViewModel.addNewCarToCollection(car: car)
+        self.navigationController?.popViewController(animated: true)
+        delegate?.updateUI()
+        }
+    
+    @objc func deleteButtonTapped() {}
+    
 }
