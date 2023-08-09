@@ -9,6 +9,7 @@ import UIKit
 
 class CarsListView: UIView {
     
+    let collectionViewModel = MainViewViewModel()
     public var carsCollectionContent = [Car]()
     
     private let canvas: UIView = {
@@ -77,7 +78,8 @@ class CarsListView: UIView {
         settingsStackView.addArrangedSubview(filterButton)
         settingsStackView.addArrangedSubview(sortButton)
         canvas.addSubview(settingsStackView)
-        carsCollection.setCarsLabelTextArray(textOfCarsArray: Constants.testCarsArray)
+        carsCollectionContent = collectionViewModel.fetchFromDB()
+        carsCollection.setCarsLabelTextArray(textOfCarsArray: carsCollectionContent)
         canvas.addSubview(carsCollection)
         canvas.addSubview(addButton)
         setConstraints()

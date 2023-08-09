@@ -25,7 +25,6 @@ enum Constants {
     static let cellMinimumLineSpacing: CGFloat = 12.0
     static let headerStackViewHeight: CGFloat = 30.0
     static let stackSpacer: CGFloat = 15.0
-    
     static var emptyCar = Car(brand: "",
                               model: "",
                               price: 0,
@@ -36,53 +35,4 @@ enum Constants {
                               maxSpeed: 0,
                               gearboxType: .mechanic,
                               yearOfManufacture: 0)
-    
-    static var testCar1 = Car(brand: "BMW",
-                              model: "5-series",
-                              price: 600000,
-                              state: .used,
-                              mileage: 250000,
-                              condition: .normal,
-                              maxPassengers: 5,
-                              maxSpeed: 200,
-                              gearboxType: .mechanic,
-                              yearOfManufacture: 2000)
-    
-    static var testCar2 = Car(brand: "Toyota",
-                              model: "Chaser",
-                              price: 750000,
-                              state: .used,
-                              mileage: 200000,
-                              condition: .normal,
-                              maxPassengers: 5,
-                              maxSpeed: 180,
-                              gearboxType: .automatic,
-                              yearOfManufacture: 1998)
-    
-    static var testCar3 = Car(brand: "Audi",
-                              model: "A7",
-                              price: 1600000,
-                              state: .used,
-                              mileage: 150000,
-                              condition: .normal,
-                              maxPassengers: 5,
-                              maxSpeed: 250,
-                              gearboxType: .robotic,
-                              yearOfManufacture: 2014)
-    
-    static var testCar4 = Car(brand: "BMW",
-                              model: "5-series",
-                              price: 6000000,
-                              state: .new,
-                              mileage: 25,
-                              condition: .perfect,
-                              maxPassengers: 5,
-                              maxSpeed: 250,
-                              gearboxType: .automatic,
-                              yearOfManufacture: 2023)
-    
-    static var testCarsArray: [Car] = [
-        testCar1, testCar2, testCar3, testCar4
-        
-    ]
 }
