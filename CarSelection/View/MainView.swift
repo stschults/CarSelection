@@ -148,7 +148,9 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
         print("Filter button tapped")
         let cars = carsCollectionContent
         var filteredCars = mainViewModel.filterArray(cars: cars)
-        print(filteredCars)
+        let filteredVC = FilteredSortedView()
+        filteredVC.carsCollectionContent = filteredCars
+        show(filteredVC, sender: .none)
     }
     
     @objc func updateButtonTapped() {
@@ -160,7 +162,9 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
         print("Sort button tapped")
         let cars = carsCollectionContent
         var sortedCars = mainViewModel.sortArray(cars: cars)
-        print(sortedCars)
+        let sortedVC = FilteredSortedView()
+        sortedVC.carsCollectionContent = sortedCars
+        show(sortedVC, sender: .none)
     }
     
     func cellTapped(item: Car) {
@@ -173,7 +177,7 @@ class MainView: UIViewController, CollectionViewTapDelegate, MainViewControllerD
         carsCollectionContent = mainViewModel.fetchFromDB()
         carsCollection.setCarsLabelTextArray(textOfCarsArray: carsCollectionContent)
         carsCollection.reloadData()
-        view.updateConstraints()
+        view.updateConstraintsIfNeeded()
     }
     
 }
