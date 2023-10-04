@@ -109,6 +109,8 @@ extension CarCollectionView: UICollectionViewDataSource {
 extension CarCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = carsNames[indexPath.item]
+        let dbService = StorageService()
+
         print(item)
         openEditController(item: item)
         
